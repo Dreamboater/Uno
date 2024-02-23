@@ -13,7 +13,7 @@ players = []
 deck = []
 discard = []
 
-type = ["number", "+2", "+4 wild", "skip", "reverse", "wild"]
+type = ["number", "+2", "+4 Wild", "Skip", "Reverse", "Wild"]
 # 0, 1-9x2, 8 skip reverse +2, 4 wild +4wild
 colors = ["Blue", "Green", "Red", "Yellow"]
 
@@ -41,7 +41,7 @@ def print_deck(dek: list):
 
 
 def allow(d: Card,d2: Card):
-    if d.color == d2.color or d.type == d2.type:
+    if d.color == d2.color or d.type == d2.type or d2.type == "Wild" or d2.type == "+4 Wild":
         return True
     return False
 
@@ -82,6 +82,8 @@ while True:
     if not possible(discard[-1],players[player_turn] ):
         x = deck.pop()
         if discard[-1].color == x.color or discard[-1].type == x.type:
+            if discard[-1].value == -1:
+                discard.pop(-1)
             discard.append(x)
 
         else:
@@ -93,7 +95,26 @@ while True:
     choice = int(input("Please player "+str(turn_number%num_of_players)+" pick a card to play on the discard pile:"))
     if not allow(discard[-1], players[player_turn][choice]):
         continue
+    if discard[-1].value == -1:
+        discard.pop(-1)
     discard.append(players[player_turn].pop(choice))
+    if discard[-1].type == "+2":
+        players[(turn_number+1)%num_of_players].append(deck.pop())
+        players[(turn_number+1)%num_of_players].append(deck.pop())
+    if discard[-1].type == "Reverse":
+        players.reverse()
+    if discard[-1].type == "+4 Wild":
+        players[(turn_number+1)%num_of_players].append(deck.pop())
+        players[(turn_number+1)%num_of_players].append(deck.pop())
+        players[(turn_number+1)%num_of_players].append(deck.pop())
+        players[(turn_number+1)%num_of_players].append(deck.pop())
+        new_color = input("What new color would you like to make the discard pile?")
+        discard.append(Card(new_color,"",-1))
+    if discard[-1].type == "Wild":
+        new_color = input("What new color would you like to make the discard pile?")
+        discard.append(Card(new_color, "", -1))
+    if discard[-1].type == "Skip":
+        turn_number = turn_number+1
     if len(players[player_turn]) == 0:
         break
     print(discard[-1].color, discard[-1].type)
