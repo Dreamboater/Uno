@@ -74,7 +74,7 @@ discard.append(deck.pop())
 # if it can then just play it and move on
 
 while True:
-    player_turn = turn_number%num_of_players
+    player_turn = turn_number % num_of_players
     print(discard[-1].color,discard[-1].type)
     print("It's "+str(player_turn)+" turn, hand: ", end =" ")
     print_deck(players[player_turn])
@@ -109,10 +109,10 @@ while True:
         players[(turn_number+1)%num_of_players].append(deck.pop())
         players[(turn_number+1)%num_of_players].append(deck.pop())
         new_color = input("What new color would you like to make the discard pile?")
-        discard.append(Card(new_color,"",-1))
+        discard[-1].color = new_color
     if discard[-1].type == "Wild":
         new_color = input("What new color would you like to make the discard pile?")
-        discard.append(Card(new_color, "", -1))
+        discard[-1].color = new_color
     if discard[-1].type == "Skip":
         turn_number = turn_number+1
     if len(players[player_turn]) == 0:
@@ -121,8 +121,7 @@ while True:
 
     print_deck(players[player_turn])
     turn_number = turn_number + 1
-    for i in range(10):
-        print()
+    print()
 
 
 
