@@ -48,7 +48,7 @@ def allow(d: Card,d2: Card):
 
 def possible(d: Card, hand: list):
     for card in hand:
-        if d.color == card.color or d.type == card.type:
+        if d.color == card.color or d.type == card.type or card.type == "Wild" or card.type =="+4 Wild":
             return True
     return False
 
@@ -61,7 +61,7 @@ random.shuffle(deck)
 
 for x in range(num_of_players):
     handy = []
-    for y in range(3):
+    for y in range(10):
         handy.append(deck.pop())
     players.append(handy)
 
@@ -102,7 +102,9 @@ while True:
         players[(turn_number+1)%num_of_players].append(deck.pop())
         players[(turn_number+1)%num_of_players].append(deck.pop())
     if discard[-1].type == "Reverse":
+        print(players)
         players.reverse()
+        print(players)
     if discard[-1].type == "+4 Wild":
         players[(turn_number+1)%num_of_players].append(deck.pop())
         players[(turn_number+1)%num_of_players].append(deck.pop())
@@ -116,6 +118,7 @@ while True:
     if discard[-1].type == "Skip":
         turn_number = turn_number+1
     if len(players[player_turn]) == 0:
+        print("Congrats player "+str(player_turn)+" you win!")
         break
     print(discard[-1].color, discard[-1].type)
 
