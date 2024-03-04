@@ -61,7 +61,7 @@ random.shuffle(deck)
 
 for x in range(num_of_players):
     handy = []
-    for y in range(10):
+    for y in range(4):
         handy.append(deck.pop())
     players.append(handy)
 
@@ -82,12 +82,11 @@ while True:
     if not possible(discard[-1],players[player_turn] ):
         x = deck.pop()
         if discard[-1].color == x.color or discard[-1].type == x.type:
-            if discard[-1].value == -1:
-                discard.pop(-1)
             discard.append(x)
 
         else:
             players[player_turn].append(x)
+            print_deck(players[player_turn])
 
         turn_number = turn_number + 1
         continue
@@ -95,6 +94,7 @@ while True:
     choice = int(input("Please player "+str(turn_number%num_of_players)+" pick a card to play on the discard pile:"))
     if not allow(discard[-1], players[player_turn][choice]):
         continue
+
     if discard[-1].value == -1:
         discard.pop(-1)
     discard.append(players[player_turn].pop(choice))
